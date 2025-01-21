@@ -27,31 +27,19 @@ object arithmetic:
 
     @tailrec
     def additionRec(left: Number, right: Number): Number =
-      if !isNonNegative(left) then
-        additionRec(decrement(left), increment(right))
-
-      else if isZero(right) then
-        left
-
-      else
-        additionRec(increment(left), decrement(right))
+      if !isNonNegative(left) then additionRec(decrement(left), increment(right))
+      else if isZero(right) then left
+      else additionRec(increment(left), decrement(right))
 
     additionRec(left, right)
 
   def multiplication(left: Number, right: Number): Number =
-    require(left >= 0, "Left must be non-negative")
-    require(right >= 0, "Right must be non-negative")
 
     @tailrec
     def multiplicationRec(left: Number, right: Number, acc: Number): Number =
-      if !isNonNegative(left) then
-        multiplicationRec(left, decrement(right), addition(acc, left))
-
-      else if isZero(right) then
-        acc
-
-      else
-        multiplicationRec(left, increment(right), addition(acc, -left))
+      if !isNonNegative(left) then multiplicationRec(left, decrement(right), addition(acc, left))
+      else if isZero(right) then acc
+      else multiplicationRec(left, increment(right), addition(acc, -left))
 
     multiplicationRec(left, right, acc = 0)
 
