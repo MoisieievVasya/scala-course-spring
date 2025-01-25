@@ -35,11 +35,20 @@ object arithmetic:
 
   def multiplication(left: Number, right: Number): Number =
 
+    def negation(value: Number): Number =
+
+      @tailrec
+      def negationRec(value: Number, acc: Number): Number =
+        if isZero(value) then acc
+        else negationRec(decrement(value), decrement(acc))
+
+      negationRec(abs(value), acc = 0)
+
     @tailrec
     def multiplicationRec(left: Number, right: Number, acc: Number): Number =
       if !isNonNegative(left) then multiplicationRec(left, decrement(right), addition(acc, left))
       else if isZero(right) then acc
-      else multiplicationRec(left, increment(right), addition(acc, -left))
+      else multiplicationRec(left, increment(right), addition(acc, decrement(left)))
 
     multiplicationRec(left, right, acc = 0)
 
