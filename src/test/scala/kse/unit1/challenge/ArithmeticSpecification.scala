@@ -30,7 +30,7 @@ end MultiplicationSpecification
 
 object PowerSpecification extends Properties("Power"):
 
-  property("base ^ p should be correctly evaluated") = forAll(genSmallNonNegativeNumber, genSmallNonNegativeNumber): (base: Number, p: Number) =>
+  property("base ^ p should be correctly evaluated") = forAll(genSmallNumber, genSmallNonNegativeNumber): (base: Number, p: Number) =>
     (base != 0 && p != 0) ==> {
       power(base, p) == Math.pow(base, p).toLong
     }

@@ -23,15 +23,11 @@ object arithmetic:
       if isNonNegative(value) then value
       else -value
 
+  @tailrec
   def addition(left: Number, right: Number): Number =
-
-    @tailrec
-    def additionRec(left: Number, right: Number): Number =
-      if !isNonNegative(left) then additionRec(decrement(left), increment(right))
-      else if isZero(right) then left
-      else additionRec(increment(left), decrement(right))
-
-    additionRec(left, right)
+    if isZero(left) then right
+    else if isNonNegative(left) then addition(decrement(left), increment(right))
+    else addition(increment(left), decrement(right))
 
   def multiplication(left: Number, right: Number): Number =
 
@@ -40,15 +36,17 @@ object arithmetic:
       @tailrec
       def negationRec(value: Number, acc: Number): Number =
         if isZero(value) then acc
-        else negationRec(decrement(value), decrement(acc))
+        else if isNonNegative(value) then negationRec(decrement(value), decrement(acc))
+        else negationRec(increment(value), increment(acc))
 
-      negationRec(abs(value), acc = 0)
+      negationRec(value, acc = 0)
 
     @tailrec
     def multiplicationRec(left: Number, right: Number, acc: Number): Number =
-      if !isNonNegative(left) then multiplicationRec(left, decrement(right), addition(acc, left))
-      else if isZero(right) then acc
-      else multiplicationRec(left, increment(right), addition(acc, decrement(left)))
+
+      if isZero(right) then acc
+      else if isNonNegative(right) then multiplicationRec(left, decrement(right), addition(acc, left))
+      else multiplicationRec(left, increment(right), addition(acc, negation(left)))
 
     multiplicationRec(left, right, acc = 0)
 
