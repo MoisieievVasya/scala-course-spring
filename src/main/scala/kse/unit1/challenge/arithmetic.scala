@@ -31,22 +31,14 @@ object arithmetic:
 
   def multiplication(left: Number, right: Number): Number =
 
-    def negation(value: Number): Number =
-
-      @tailrec
-      def negationRec(value: Number, acc: Number): Number =
-        if isZero(value) then acc
-        else if isNonNegative(value) then negationRec(decrement(value), decrement(acc))
-        else negationRec(increment(value), increment(acc))
-
-      negationRec(value, acc = 0)
-
     @tailrec
     def multiplicationRec(left: Number, right: Number, acc: Number): Number =
 
-      if isZero(right) then acc
-      else if isNonNegative(right) then multiplicationRec(left, decrement(right), addition(acc, left))
-      else multiplicationRec(left, increment(right), addition(acc, negation(left)))
+      if isZero(right) || isZero(left) then acc
+      else if isNonNegative(right) && isNonNegative(left) then multiplicationRec(left, decrement(right), addition(acc, left))
+      else if !isNonNegative(right) && !isNonNegative(left) then multiplicationRec(abs(left), decrement(abs(right)), addition(acc, abs(left)))
+      else if !isNonNegative(left) && isNonNegative(right) then multiplicationRec(left, decrement(right), addition(acc, left))
+      else multiplicationRec(decrement(left), right, addition(acc, right))
 
     multiplicationRec(left, right, acc = 0)
 
