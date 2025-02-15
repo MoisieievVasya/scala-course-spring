@@ -11,18 +11,27 @@ object booleans:
   type False   = False.type
   type Boolean = True | False
 
-  val negation: Boolean => Boolean = { case True => False; case False => True }
+  val negation: Boolean => Boolean =
+    case True => False;
+    case False => True
 
   val conjunction: (Boolean, => Boolean) => Boolean = (left, right) =>
-    if left == False then False else (left, right) match { case (True, value) => value; case (False, _) => False }
+    if left == False then False
+    else (left, right) match
+      case (True, value) => value;
+      case (False, _) => False
 
   val disjunction: (Boolean, => Boolean) => Boolean = (left, right) =>
-    if left == True then True else (left, right) match { case (True, _) => True; case (False, value) => value }
+    if left == True then True
+    else (left, right) match
+      case (True, _) => True;
+      case (False, value) => value
 
   val implication: (Boolean, => Boolean) => Boolean = (left, right) =>
-    if left == False then True else (left, right) match { case (True, value) => value; case (False, _) => True }
+    disjunction(negation(left), right)
 
-  val equivalence: (Boolean, => Boolean) => Boolean = { case (True, value) => value; case (False, value) => negation(value) }
+  val equivalence: (Boolean, => Boolean) => Boolean = (left, right) =>
+    conjunction(implication(left, right), implication(right, left))
 
   extension (value: Boolean)
 

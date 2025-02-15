@@ -21,10 +21,10 @@ end BooleansSpecification
 object NegationSpecification extends Properties("Negation"):
 
   property("!True is False") = propBoolean:
-    (True.unary_!) == False
+    (!True) == False
 
   property("!False is True") = propBoolean:
-    (False.unary_!) == True
+    (!False) == True
 
 end NegationSpecification
 
