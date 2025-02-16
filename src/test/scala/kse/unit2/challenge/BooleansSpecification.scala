@@ -76,31 +76,51 @@ object EquivalenceSpecification extends Properties("Equivalence"):
   property("False ↔ value is !value") = forAll: (value: Boolean) =>
     (False ↔ value) == !value
 
+  property("Reflexivity: a ↔ a is True") = forAll: (a: Boolean) =>
+    (a ↔ a) == True
+
+  property("Symmetry: a ↔ b is b ↔ a") = forAll: (a: Boolean, b: Boolean) =>
+    (a ↔ b) == (b ↔ a)
+
+  property("Transitivity: (a ↔ b) ∧ (b ↔ c) → (a ↔ c)") = forAll: (a: Boolean, b: Boolean, c: Boolean) =>
+    ((a ↔ b) ∧ (b ↔ c)) → (a ↔ c) == True
+
 end EquivalenceSpecification
 
 object AxiomsSpecification extends Properties("Axioms"):
 
-  property("a → (b → a)") = forAll((a: Boolean, b: Boolean) => (a → (b → a)) == True)
+  property("a → (b → a)") = forAll: (a: Boolean, b: Boolean) =>
+    (a → (b → a)) == True
 
-  property("(a → (b → c)) → ((a → b) → (a → c))") = forAll((a: Boolean, b: Boolean, c: Boolean) => ((a → (b → c)) → ((a → b) → (a → c))) == True)
+  property("(a → (b → c)) → ((a → b) → (a → c))") = forAll: (a: Boolean, b: Boolean, c: Boolean) =>
+    ((a → (b → c)) → ((a → b) → (a → c))) == True
 
-  property("(a ∧ b) → a") = forAll((a: Boolean, b: Boolean) => ((a ∧ b) → a) == True)
+  property("(a ∧ b) → a") = forAll: (a: Boolean, b: Boolean) =>
+    ((a ∧ b) → a) == True
 
-  property("(a ∧ b) → b") = forAll((a: Boolean, b: Boolean) => ((a ∧ b) → b) == True)
+  property("(a ∧ b) → b") = forAll: (a: Boolean, b: Boolean) =>
+    ((a ∧ b) → b) == True
 
-  property("a → (b → (a ∧ b))") = forAll((a: Boolean, b: Boolean) => (a → (b → (a ∧ b))) == True)
+  property("a → (b → (a ∧ b))") = forAll: (a: Boolean, b: Boolean) =>
+    (a → (b → (a ∧ b))) == True
 
-  property("a → (a ∨ b)") = forAll((a: Boolean, b: Boolean) => (a → (a ∨ b)) == True)
+  property("a → (a ∨ b)") = forAll: (a: Boolean, b: Boolean) =>
+    (a → (a ∨ b)) == True
 
-  property("b → (a ∨ b)") = forAll((a: Boolean, b: Boolean) => (b → (a ∨ b)) == True)
+  property("b → (a ∨ b)") = forAll: (a: Boolean, b: Boolean) =>
+    (b → (a ∨ b)) == True
 
-  property("(a → c) → ((b → c) → ((a ∨ b) → c)))") = forAll((a: Boolean, b: Boolean, c: Boolean) => ((a → c) → ((b → c) → ((a ∨ b) → c))) == True)
+  property("(a → c) → ((b → c) → ((a ∨ b) → c)))") = forAll: (a: Boolean, b: Boolean, c: Boolean) =>
+    ((a → c) → ((b → c) → ((a ∨ b) → c))) == True
 
-  property("!a → (a → b)") = forAll((a: Boolean, b: Boolean) => (!a → (a → b)) == True)
+  property("!a → (a → b)") = forAll: (a: Boolean, b: Boolean) =>
+    (!a → (a → b)) == True
 
-  property("(a → b) → ((a → !b) → !a)") = forAll((a: Boolean, b: Boolean) => ((a → b) → ((a → !b) → !a)) == True)
+  property("(a → b) → ((a → !b) → !a)") = forAll: (a: Boolean, b: Boolean) =>
+    ((a → b) → ((a → !b) → !a)) == True
 
-  property("a ∨ !a") = forAll((a: Boolean) => (a ∨ !a) == True)
+  property("a ∨ !a") = forAll: (a: Boolean) =>
+    (a ∨ !a) == True
 
 end AxiomsSpecification
 
