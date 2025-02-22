@@ -11,9 +11,7 @@ object expressions:
   sealed trait Boolean extends Expression:
     val evaluate: Expression = this
 
-    def substitute(variable: Variable, substitution: Expression): Expression =
-      if this == variable then substitution
-      else this
+    def substitute(variable: Variable, substitution: Expression): Expression = this
 
   type True = True.type
   case object True extends Boolean
@@ -32,10 +30,9 @@ object expressions:
 
     def evaluate: Expression =
       expression.evaluate match
-        case True            => False
-        case False           => True
-        case Negation(inner) => inner.evaluate
-        case expr            => Negation(expr.evaluate)
+        case True  => False
+        case False => True
+        case expr  => Negation(expr)
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Negation(expression.substitute(variable, substitution))
@@ -44,7 +41,7 @@ object expressions:
   case class Conjunction(left: Expression, right: Expression) extends Expression:
 
     def evaluate: Expression =
-      (left, right) match
+      (left.evaluate, right.evaluate) match
         case (True, expr)            => expr
         case (expr, True)            => expr
         case (False, _) | (_, False) => False
@@ -58,7 +55,7 @@ object expressions:
   case class Disjunction(left: Expression, right: Expression) extends Expression:
 
     def evaluate: Expression =
-      (left, right) match
+      (left.evaluate, right.evaluate) match
         case (True, _) | (_, True) => True
         case (False, expr)         => expr
         case (expr, False)         => expr

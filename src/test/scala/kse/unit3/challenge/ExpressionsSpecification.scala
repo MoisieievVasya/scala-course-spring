@@ -46,7 +46,7 @@ object NegationEvaluationSpecification extends Properties("Negation Evaluation")
     (!variable).evaluate == !variable
 
   property("!expression should be correctly evaluated") = forAll: (expression: Expression) =>
-    (!expression).evaluate.toString == (!expression.evaluate).evaluate.toString
+    (!expression).evaluate == (!expression.evaluate).evaluate
 
 end NegationEvaluationSpecification
 
