@@ -46,7 +46,7 @@ object expressions:
         case (expr, True)            => expr
         case (False, _) | (_, False) => False
         case (l, r) if l == r        => l
-        case _                       => this
+        case _                       => Conjunction(left, right)
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Conjunction(left.substitute(variable, substitution), right.substitute(variable, substitution))
@@ -56,11 +56,11 @@ object expressions:
 
     def evaluate: Expression =
       (left.evaluate, right.evaluate) match
-        case (True, _) | (_, True) => True
-        case (False, expr)         => expr
-        case (expr, False)         => expr
-        case (l, r) if l == r      => l
-        case _                     => this
+        case (True, _)     => True
+        case (_, True)     => True
+        case (False, expr) => expr
+        case (expr, False) => expr
+        case _             => Disjunction(left, right)
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Disjunction(left.substitute(variable, substitution), right.substitute(variable, substitution))
@@ -73,7 +73,7 @@ object expressions:
         case (True, expr)                                                       => expr
         case (False, _)                                                         => True
         case (evaluatedLeft, evaluatedRight) if evaluatedLeft == evaluatedRight => True
-        case _                                                                  => Implication(left.evaluate, right.evaluate)
+        case _                                                                  => Implication(left, right)
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Implication(left.substitute(variable, substitution), right.substitute(variable, substitution))

@@ -53,10 +53,10 @@ end NegationEvaluationSpecification
 object ConjunctionEvaluationSpecification extends Properties("Conjunction Evaluation"):
 
   property("True ∧ expression should be evaluated to expression evaluation") = forAll: (expression: Expression) =>
-    (True ∧ expression).evaluate == expression
+    (True ∧ expression).evaluate == expression.evaluate
 
   property("expression ∧ True should be evaluated to expression evaluation") = forAll: (expression: Expression) =>
-    (expression ∧ True).evaluate == expression
+    (expression ∧ True).evaluate == expression.evaluate
 
   property("False ∧ expression should be evaluated to False") = forAll: (expression: Expression) =>
     (False ∧ expression).evaluate == False
@@ -64,8 +64,8 @@ object ConjunctionEvaluationSpecification extends Properties("Conjunction Evalua
   property("expression ∧ False should be evaluated to False") = forAll: (expression: Expression) =>
     (expression ∧ False).evaluate == False
 
-  property("left ∧ left should be correctly evaluated") = forAll: (left: Expression) =>
-    (left ∧ left).evaluate == left
+  property("left ∧ right should be correctly evaluated") = forAll: (left: Boolean, right: Boolean) =>
+    (left ∧ right).evaluate == (left.evaluate ∧ right.evaluate).evaluate
 
 end ConjunctionEvaluationSpecification
 
@@ -78,13 +78,13 @@ object DisjunctionEvaluationSpecification extends Properties("Disjunction Evalua
     (expression ∨ True).evaluate == True
 
   property("False ∨ expression should be evaluated to expression evaluation") = forAll: (expression: Expression) =>
-    (False ∨ expression).evaluate == expression
+    (False ∨ expression).evaluate == expression.evaluate
 
   property("expression ∨ False should be evaluated to expression evaluation") = forAll: (expression: Expression) =>
-    (expression ∨ False).evaluate == expression
+    (expression ∨ False).evaluate == expression.evaluate
 
-  property("left ∨ left should be correctly evaluated") = forAll: (left: Expression) =>
-    (left ∨ left).evaluate == left
+  property("left ∨ left should be correctly evaluated") = forAll((left: Boolean, right: Boolean) =>
+    (left ∨ right).evaluate == (left.evaluate ∨ right.evaluate).evaluate)
 
 end DisjunctionEvaluationSpecification
 
