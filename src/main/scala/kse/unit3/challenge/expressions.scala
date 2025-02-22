@@ -32,9 +32,10 @@ object expressions:
 
     def evaluate: Expression =
       expression.evaluate match
-        case True  => False
-        case False => True
-        case expr  => Negation(expr.evaluate)
+        case True            => False
+        case False           => True
+        case Negation(inner) => inner.evaluate
+        case expr            => Negation(expr.evaluate)
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Negation(expression.substitute(variable, substitution))
