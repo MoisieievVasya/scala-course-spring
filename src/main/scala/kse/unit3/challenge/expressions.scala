@@ -36,6 +36,7 @@ object expressions:
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Negation(expression.substitute(variable, substitution))
+
     override def toString: String = s"!$expression"
 
   case class Conjunction(left: Expression, right: Expression) extends Expression:
@@ -45,11 +46,11 @@ object expressions:
         case (True, expr)            => expr
         case (expr, True)            => expr
         case (False, _) | (_, False) => False
-        case (l, r) if l == r        => l
-        case _                       => Conjunction(left, right)
+        case (left, right)           => Conjunction(left, right)
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Conjunction(left.substitute(variable, substitution), right.substitute(variable, substitution))
+
     override def toString: String = s"($left ∧ $right)"
 
   case class Disjunction(left: Expression, right: Expression) extends Expression:
@@ -60,34 +61,31 @@ object expressions:
         case (_, True)     => True
         case (False, expr) => expr
         case (expr, False) => expr
-        case _             => Disjunction(left, right)
+        case (left, right) => Disjunction(left, right)
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Disjunction(left.substitute(variable, substitution), right.substitute(variable, substitution))
+
     override def toString: String = s"($left ∨ $right)"
 
   case class Implication(left: Expression, right: Expression) extends Expression:
 
     def evaluate: Expression =
-      (left.evaluate, right.evaluate) match
-        case (True, expr)                                                       => expr
-        case (False, _)                                                         => True
-        case (evaluatedLeft, evaluatedRight) if evaluatedLeft == evaluatedRight => True
-        case _                                                                  => Implication(left, right)
+      Disjunction(Negation(left.evaluate), right.evaluate).evaluate
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Implication(left.substitute(variable, substitution), right.substitute(variable, substitution))
+
     override def toString: String = s"($left → $right)"
 
   case class Equivalence(left: Expression, right: Expression) extends Expression:
 
     def evaluate: Expression =
-      (left.evaluate, right.evaluate) match
-        case (l, r) if l == r => True
-        case _                => False
+      Conjunction(Implication(left.evaluate, right.evaluate), Implication(right.evaluate, left.evaluate)).evaluate
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Equivalence(left.substitute(variable, substitution), right.substitute(variable, substitution))
+
     override def toString: String = s"($left ↔ $right)"
 
   given Conversion[String, Variable] with

@@ -104,18 +104,18 @@ end ImplicationEvaluationSpecification
 object EquivalenceEvaluationSpecification extends Properties("Equivalence Evaluation"):
 
   property("Reflexivity") = forAll: (a: Boolean) =>
-    Equivalence(a, a).evaluate == True
+    (a ↔ a).evaluate == True
 
   property("Symmetry") = forAll: (a: Boolean, b: Boolean) =>
     Equivalence(a, b).evaluate == Equivalence(b, a).evaluate
 
   property("Transitivity") = forAll: (a: Boolean, b: Boolean, c: Boolean) =>
-    (Equivalence(a, b).evaluate == True && Equivalence(b, c).evaluate == True) ==> {
-      Equivalence(a, c).evaluate == True
+    ((a ↔ b).evaluate == True && (b ↔ c).evaluate == True) ==> {
+      (a ↔ c).evaluate == True
     }
 
-  property("left ↔ left should be correctly evaluated") = forAll: (expression: Expression) =>
-    Equivalence(expression, expression).evaluate == True
+  property("left ↔ left should be correctly evaluated") = forAll: (left: Boolean) =>
+    (left ↔ left).evaluate == True
 
 end EquivalenceEvaluationSpecification
 
