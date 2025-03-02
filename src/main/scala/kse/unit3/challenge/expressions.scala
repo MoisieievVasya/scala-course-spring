@@ -71,7 +71,7 @@ object expressions:
   case class Implication(left: Expression, right: Expression) extends Expression:
 
     def evaluate: Expression =
-      Disjunction(Negation(left.evaluate), right.evaluate).evaluate
+      Disjunction(Negation(left.evaluate).evaluate, right.evaluate).evaluate
 
     def substitute(variable: Variable, substitution: Expression): Expression =
       Implication(left.substitute(variable, substitution), right.substitute(variable, substitution))
