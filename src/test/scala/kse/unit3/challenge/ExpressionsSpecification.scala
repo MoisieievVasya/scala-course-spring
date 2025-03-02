@@ -96,7 +96,7 @@ object ImplicationEvaluationSpecification extends Properties("Implication Evalua
   property("False → expression should be evaluated to True") = forAll: (expression: Expression) =>
     (False → expression).evaluate == True
 
-  property("left → right should be correctly evaluated") = forAll: (left: Expression, right : Expression) =>
+  property("left → right should be correctly evaluated") = forAll: (left: Expression, right: Expression) =>
     (left.evaluate → right.evaluate).evaluate == (left → right).evaluate
 
 end ImplicationEvaluationSpecification
