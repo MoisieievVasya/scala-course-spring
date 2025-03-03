@@ -17,7 +17,6 @@ object NumeralsSpecification extends Properties("Numerals"):
 
 end NumeralsSpecification
 
-
 object ZeroSpecification extends Properties("Zero"):
 
   property("isZero") = forAll: (z: Zero) =>
@@ -102,12 +101,11 @@ object SuccessorSpecification extends Properties("Successor"):
   property("subtraction Successor - Successor") = forAll: (s1: Successor, s2: Successor) =>
     s1 - s2 == s1.successor - s2.successor
 
-
 end SuccessorSpecification
 
 object NumeralSpecification extends Properties("Numeral"):
 
-  property("greater than") = forAll: (n1: Numeral ) =>
+  property("greater than") = forAll: (n1: Numeral) =>
     n1 > n1.predecessor
 
   property("greater or equal to") = forAll: (n1: Numeral, n2: Numeral) =>
@@ -120,9 +118,7 @@ object NumeralSpecification extends Properties("Numeral"):
     n1 <= n2 == n1.toInt <= n2.toInt
 
   property("ToString") = forAll: (n: Numeral) =>
-    if n.isZero then
-      n.toString == "0"
-    else
-    n.toString == "Nat(" + n.predecessor + ")"
+    if n.isZero then n.toString == "0"
+    else n.toString == "Nat(" + n.predecessor + ")"
 
 end NumeralSpecification

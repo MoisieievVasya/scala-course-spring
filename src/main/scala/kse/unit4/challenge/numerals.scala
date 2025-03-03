@@ -114,7 +114,6 @@ object numerals:
         case Zero         => this
         case Successor(m) => n - m
 
-
     def toInt: Int = 1 + n.toInt
 
     override def toString: String =
