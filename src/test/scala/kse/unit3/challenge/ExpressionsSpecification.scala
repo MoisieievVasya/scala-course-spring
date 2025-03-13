@@ -67,6 +67,7 @@ object ConjunctionEvaluationSpecification extends Properties("Conjunction Evalua
   property("left ∧ right should be correctly evaluated") = forAll: (left: Boolean, right: Boolean) =>
     (left ∧ right).evaluate == (left.evaluate ∧ right.evaluate).evaluate
 
+
 end ConjunctionEvaluationSpecification
 
 object DisjunctionEvaluationSpecification extends Properties("Disjunction Evaluation"):
@@ -86,6 +87,7 @@ object DisjunctionEvaluationSpecification extends Properties("Disjunction Evalua
   property("left ∨ left should be correctly evaluated") =
     forAll((left: Boolean, right: Boolean) => (left ∨ right).evaluate == (left.evaluate ∨ right.evaluate).evaluate)
 
+
 end DisjunctionEvaluationSpecification
 
 object ImplicationEvaluationSpecification extends Properties("Implication Evaluation"):
@@ -96,8 +98,10 @@ object ImplicationEvaluationSpecification extends Properties("Implication Evalua
   property("False → expression should be evaluated to True") = forAll: (expression: Expression) =>
     (False → expression).evaluate == True
 
+
   property("left → right should be correctly evaluated") = forAll: (left: Expression, right: Expression) =>
     (left.evaluate → right.evaluate).evaluate == (left → right).evaluate
+
 
 end ImplicationEvaluationSpecification
 
@@ -114,8 +118,10 @@ object EquivalenceEvaluationSpecification extends Properties("Equivalence Evalua
       (a ↔ c).evaluate == True
     }
 
+
   property("left ↔ left should be correctly evaluated") = forAll: (left: Boolean) =>
     (left ↔ left).evaluate == True
+
 
 end EquivalenceEvaluationSpecification
 
