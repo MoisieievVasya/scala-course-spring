@@ -14,6 +14,7 @@ object NumeralsSpecification extends Properties("Numerals"):
   include(ZeroSpecification)
   include(SuccessorSpecification)
   include(NumeralSpecification)
+  include(OperationsSpecification)
 
 end NumeralsSpecification
 
@@ -122,3 +123,31 @@ object NumeralSpecification extends Properties("Numeral"):
     else n.toString == "Nat(" + n.predecessor + ")"
 
 end NumeralSpecification
+
+object OperationsSpecification extends Properties("Numerals"):
+
+  property("addition is associative") = forAll { (a: Numeral, b: Numeral, c: Numeral) =>
+    (a + b) + c == a + (b + c)
+  }
+
+  property("addition is commutative") = forAll { (a: Numeral, b: Numeral) =>
+    a + b == b + a
+  }
+
+  property("equality is reflexive") = forAll { (a: Numeral) =>
+    a == a
+  }
+
+  property("equality is symmetric") = forAll { (a: Numeral, b: Numeral) =>
+    (a == b) == (b == a)
+  }
+
+  property("equality is transitive") = forAll { (a: Numeral, b: Numeral, c: Numeral) =>
+    !(a == b && b == c) || (a == c)
+  }
+
+  property("zero is the identity for addition") = forAll { (a: Numeral) =>
+    a + Zero == a
+  }
+
+end OperationsSpecification
