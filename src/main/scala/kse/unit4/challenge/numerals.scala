@@ -49,7 +49,8 @@ object numerals:
 
     @targetName("greater than")
     infix def >(that: Numeral): Boolean =
-      that.isZero
+      if that.isZero then false else true
+      
 
     @targetName("addition")
     infix def +(that: Numeral): Numeral =
