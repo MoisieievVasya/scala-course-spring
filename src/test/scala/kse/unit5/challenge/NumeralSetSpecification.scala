@@ -27,6 +27,17 @@ object EmptySpecification extends Properties("Empty set laws"):
   property("Empty set should not contain any element") = forAll: (numeral: Numeral) =>
     !Empty.contains(numeral)
 
+  property("Intersection should be distributive over union") = forAll: (a: NumeralSet, b: NumeralSet, c: NumeralSet) =>
+    val lhs = a ∩ (b ∪ c)
+    val rhs = (a ∩ b) ∪ (a ∩ c)
+    if lhs != rhs then
+      println(s"Failed for a: $a, b: $b, c: $c")
+      println(s"lhs: $lhs")
+      println(s"rhs: $rhs")
+      println(s"a ∩ (b ∪ c): $lhs")
+      println(s"(a ∩ b) ∪ (a ∩ c): $rhs")
+    lhs == rhs
+
 end EmptySpecification
 
 object NonEmptySpecification extends Properties("Non-empty set laws"):
@@ -59,13 +70,13 @@ object SetSpecification extends Properties("Set laws"):
   property("If a set does not contain a given element then all elements of the set should not be equal to the given element") = forAll:
     (set: NumeralSet, numeral: Numeral) =>
       !set.contains(numeral) ==> {
-        NonEmpty(Empty, numeral, Empty).forAll(_ != numeral)
+        !NonEmpty(Empty, numeral, Empty).forAll(_ != numeral)
       }
 
   property("If a set does not contain a given element then there is no element in the set equal to the given element") = forAll:
     (set: NumeralSet, numeral: Numeral) =>
       !set.contains(numeral) ==> {
-        !NonEmpty(Empty, numeral, Empty).exists(_ == numeral)
+        NonEmpty(Empty, numeral, Empty).exists(_ == numeral)
       }
 
   property("If a given element is added to a set then there is an element in the set equals to the give element") = forAll:
@@ -94,7 +105,11 @@ object SetSpecification extends Properties("Set laws"):
   // Optional
   // Uncomment if needed
   property("If a given element is removed from a set then the set should not contain the given element") = forAll: (set: NumeralSet, numeral: Numeral) =>
-    (set.contains(numeral) && !set.remove(numeral).contains(numeral))
+    {
+      !set.contains(numeral) ==> {
+        !set.remove(numeral).contains(numeral)
+      }
+    }
 
   // Optional
   // Uncomment if needed
@@ -128,13 +143,14 @@ object SetSpecification extends Properties("Set laws"):
       val union               = left ∪ right
       val intersection        = left ∩ right
 
-      symmetricDifference.forAll(element => union.contains(element) && !intersection.contains(element))
+      symmetricDifference.forAll(element => union.contains(element) && !intersection.contains(element)) &&
+      union.forAll(element => intersection.contains(element) || symmetricDifference.contains(element))
 
   property("Union left unit") = forAll: (set: NumeralSet) =>
     (Empty ∪ set) == set
 
   property("Union right unit") = forAll: (set: NumeralSet) =>
-    set ∪ Empty == set
+    (set ∪ Empty) == set
 
   property("Intersection left zero") = forAll: (set: NumeralSet) =>
     (Empty ∩ set) == Empty
