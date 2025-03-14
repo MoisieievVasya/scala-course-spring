@@ -17,30 +17,15 @@ object numerals:
 
     @targetName("greater or equal to")
     infix def >=(that: Numeral): Boolean =
-      this match
-        case Zero => that.isZero
-        case Successor(n) =>
-          that match
-            case Zero         => true
-            case Successor(m) => n >= m
+      (this > that) || (this == that)
 
     @targetName("less than")
     infix def <(that: Numeral): Boolean =
-      this match
-        case Zero => !that.isZero
-        case Successor(n) =>
-          that match
-            case Zero         => false
-            case Successor(m) => n < m
+      !(this > that) && (this != that)
 
     @targetName("less or equal to")
     infix def <=(that: Numeral): Boolean =
-      this match
-        case Zero => true
-        case Successor(n) =>
-          that match
-            case Zero         => false
-            case Successor(m) => n <= m
+      (this < that) || (this == that)
 
     @targetName("addition")
     infix def +(that: Numeral): Numeral
