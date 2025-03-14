@@ -100,24 +100,31 @@ object set:
 
     @targetName("union")
     infix def ∪(that: NumeralSet): NumeralSet =
-      left ∪ right ∪ that include element
+      left ∪ right ∪ that.include(element)
 
     @targetName("intersection")
     infix def ∩(that: NumeralSet): NumeralSet =
-      left ∩ right ∩ that include element
+      val leftIntersection  = left ∩ that
+      val rightIntersection = right ∩ that
+      if that.contains(element) then NonEmpty(leftIntersection, element, rightIntersection)
+      else leftIntersection ∪ rightIntersection
 
     // Optional
     // Uncomment if needed
     @targetName("difference")
     infix def \(that: NumeralSet): NumeralSet =
-      left \ right \ that remove element
+      val leftDifference  = left \ that
+      val rightDifference = right \ that
+      if that.contains(element) then leftDifference ∪ rightDifference
+      else NonEmpty(leftDifference, element, rightDifference)
 
     override def toString: String = s"[$left - [$element] - $right]"
 
     override def equals(obj: Any): Boolean =
       obj match
-        case NonEmpty(l, e, r) => left == l && element == e && right == r
-        case _                 => false
+        case that: NumeralSet =>
+          this.forAll(that.contains) && that.forAll(this.contains)
+        case _ => false
 
   end NonEmpty
 
