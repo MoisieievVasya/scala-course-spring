@@ -107,7 +107,8 @@ end SuccessorSpecification
 object NumeralSpecification extends Properties("Numeral"):
 
   property("greater than") = forAll: (n1: Numeral) =>
-    n1 > n1.predecessor
+    if n1.isZero then !(n1 > n1.predecessor)
+    else n1 > n1.predecessor
 
   property("greater or equal to") = forAll: (n1: Numeral, n2: Numeral) =>
     n1 >= n2 == n1.toInt >= n2.toInt
