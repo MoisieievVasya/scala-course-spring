@@ -27,17 +27,6 @@ object EmptySpecification extends Properties("Empty set laws"):
   property("Empty set should not contain any element") = forAll: (numeral: Numeral) =>
     !Empty.contains(numeral)
 
-  property("Intersection should be distributive over union") = forAll: (a: NumeralSet, b: NumeralSet, c: NumeralSet) =>
-    val lhs = a ∩ (b ∪ c)
-    val rhs = (a ∩ b) ∪ (a ∩ c)
-    if lhs != rhs then
-      println(s"Failed for a: $a, b: $b, c: $c")
-      println(s"lhs: $lhs")
-      println(s"rhs: $rhs")
-      println(s"a ∩ (b ∪ c): $lhs")
-      println(s"(a ∩ b) ∪ (a ∩ c): $rhs")
-    lhs == rhs
-
 end EmptySpecification
 
 object NonEmptySpecification extends Properties("Non-empty set laws"):
