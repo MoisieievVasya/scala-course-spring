@@ -106,19 +106,15 @@ object set:
 
     @targetName("intersection")
     infix def ∩(that: NumeralSet): NumeralSet =
-      val leftIntersection  = left ∩ that
-      val rightIntersection = right ∩ that
-      if that.contains(element) then NonEmpty(leftIntersection, element, rightIntersection)
-      else leftIntersection ∪ rightIntersection
+      if that.contains(element) then NonEmpty(left ∩ that, element, right ∩ that)
+      else (left ∩ that) ∪ (right ∩ that)
 
     // Optional
     // Uncomment if needed
     @targetName("difference")
     infix def \(that: NumeralSet): NumeralSet =
-      val leftDifference  = left \ that
-      val rightDifference = right \ that
-      if that.contains(element) then leftDifference ∪ rightDifference
-      else NonEmpty(leftDifference, element, rightDifference)
+      if that.contains(element) then (left \ that) ∪ (right \ that)
+      else NonEmpty(left \ that, element, right \ that)
 
     override def toString: String = s"[$left - [$element] - $right]"
 
@@ -128,7 +124,7 @@ object set:
           this.forAll(that.contains) && that.forAll(this.contains)
         case _ => false
 
-    override def hashCode(): Int = { 
+    override def hashCode(): Int = {
       var result = 17
       result = 31 * result + left.hashCode()
       result = 31 * result + element.hashCode()
