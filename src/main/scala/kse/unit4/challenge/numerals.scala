@@ -71,6 +71,8 @@ object numerals:
     override def equals(obj: Any): Boolean =
       obj.isInstanceOf[Zero]
 
+    override def hashCode: Int = 0
+
   object Successor:
     def unapply(successor: Successor): Option[Numeral] = Option(successor.predecessor)
 
@@ -103,6 +105,8 @@ object numerals:
 
     override def toString: String =
       s"Nat($n)"
+
+    override def hashCode: Int = 1 + n.hashCode
 
     override def equals(obj: Any): Boolean =
       obj match
