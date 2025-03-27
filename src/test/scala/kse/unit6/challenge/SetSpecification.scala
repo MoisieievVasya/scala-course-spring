@@ -68,10 +68,10 @@ object SetSpecification extends Properties("Set laws"):
       }
 
   property("If a given element is added to a set then there is an element in the set equals to the give element") = forAll:
-    (set: Set[Numeral], numeral: Numeral) => 
+    (set: Set[Numeral], numeral: Numeral) =>
       !set.contains(numeral) ==> {
-      NonEmpty(Empty, numeral, Empty).exists(_ == numeral)
-    }
+        NonEmpty(Empty, numeral, Empty).exists(_ == numeral)
+      }
 
   property("If a given element is added to a set then set should include the given element") = forAll: (set: Set[Numeral], numeral: Numeral) =>
     !set.contains(numeral) ==> {
@@ -102,7 +102,7 @@ object SetSpecification extends Properties("Set laws"):
   // Optional
   // Uncomment if needed
   property("If a given new element is added to a set and then removed from the set then the set should not be changed") = forAll:
-    (set: Set[Numeral], numeral: Numeral) => 
+    (set: Set[Numeral], numeral: Numeral) =>
       !set.contains(numeral) ==> {
         set.include(numeral).remove(numeral) == set
       }
@@ -165,7 +165,7 @@ object SetSpecification extends Properties("Set laws"):
   // Optional
   // Uncomment if needed
   property("Symmetric difference right unit") = forAll: (set: Set[Numeral]) =>
-    (Empty ∆ set ) == set
+    (Empty ∆ set) == set
 
   property("Union should be idempotent") = forAll: (set: Set[Numeral]) =>
     (set ∪ set) == set
