@@ -4,7 +4,7 @@ import kse.unit4.challenge.numerals.Numeral
 import scala.annotation.targetName
 
 object set:
-  
+
   trait NumeralSet:
 
     infix def forAll(predicate: Numeral => Boolean): Boolean
@@ -121,7 +121,7 @@ object set:
     override def equals(obj: Any): Boolean =
       obj match
         case that: NumeralSet =>
-          this.forAll(that.contains) && that.forAll(this.contains)
+          this.forAll(that.contains) && that.forAll(this.contains)  
         case _ => false
 
     override def hashCode(): Int =
