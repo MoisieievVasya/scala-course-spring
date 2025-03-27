@@ -124,7 +124,7 @@ object set:
           this.forAll(that.contains) && that.forAll(this.contains)
         case _ => false
 
-    override def hashCode(): Int = 
+    override def hashCode(): Int =
       left.hashCode() + element.hashCode() + right.hashCode()
 
   end NonEmpty
