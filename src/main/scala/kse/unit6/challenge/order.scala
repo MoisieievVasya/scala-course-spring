@@ -12,3 +12,10 @@ object order:
 
     infix def >(that: V): Boolean =
       ord.compare(elem, that) > 0
+
+  given Order[Numeral] with
+
+    def compare(left: Numeral, right: Numeral): Int =
+      if left == right then 0
+      else if left < right then -1
+      else 1
