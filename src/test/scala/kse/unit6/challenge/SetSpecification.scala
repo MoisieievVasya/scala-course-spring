@@ -79,7 +79,7 @@ object SetSpecification extends Properties("Set laws"):
     }
 
   property("Inclusion should be idempotent") = forAll: (set: Set[Numeral], numeral: Numeral) =>
-    set.include(numeral) == set.include(numeral)
+    set.include(numeral).include(numeral) == set.include(numeral)
 
   // Optional
   // Uncomment if needed
@@ -108,7 +108,7 @@ object SetSpecification extends Properties("Set laws"):
       }
 
   property("Removal should be idempotent") = forAll: (set: Set[Numeral], numeral: Numeral) =>
-    set.remove(numeral) == set.remove(numeral)
+    set.remove(numeral).remove(numeral) == set.remove(numeral)
 
   property("A union of two given sets should contain the elements from both sets") = forAll: (left: Set[Numeral], right: Set[Numeral]) =>
     (left ∪ right).forAll(element => true)
