@@ -145,7 +145,7 @@ object SetSpecification extends Properties("Set laws"):
     (Empty ∩ set) == Empty
 
   property("Intersection right zero") = forAll: (set: Set[Numeral]) =>
-    (Empty ∩ set) == Empty
+    (set ∩ Empty) == Empty
 
   // Optional
   // Uncomment if needed

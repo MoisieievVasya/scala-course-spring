@@ -79,32 +79,31 @@ object set:
       left.exists(predicate) || predicate(element) || right.exists(predicate)
 
     infix def contains[B >: A: Order](x: B): Boolean =
-      summon[Order[B]].compare(x, element) match
-        case c if c < 0 => left.contains(x)
-        case c if c > 0 => right.contains(x)
-        case _          => true
+      if x == element then true
+      else if x < element then left.contains(x)
+      else right.contains(x)
 
     infix def include[B >: A: Order](x: B): Set[B] =
-      summon[Order[B]].compare(x, element) match
-        case c if c < 0 => NonEmpty(left.include(x), element, right)
-        case c if c > 0 => NonEmpty(left, element, right.include(x))
-        case _          => this
+      if x == element then this
+      else if x < element then NonEmpty(left.include(x), element, right)
+      else NonEmpty(left, element, right.include(x))
 
     // Optional from the Unit 5. If you haven't implement it in Unit 5 then skip it
     infix def remove[B >: A: Order](x: B): Set[B] =
-      summon[Order[B]].compare(x, element) match
-        case c if c < 0 => NonEmpty(left.remove(x), element, right)
-        case c if c > 0 => NonEmpty(left, element, right.remove(x))
-        case _          => left ∪ right
+      if x == element then left ∪ right
+      else if x < element then NonEmpty(left.remove(x), element, right)
+      else NonEmpty(left, element, right.remove(x))
 
     @targetName("union")
     infix def ∪[B >: A: Order](that: Set[B]): Set[B] =
-      left.∪[B](right.∪[B](that.include(element)))(using summon[Order[B]])
+      that match
+        case Empty                       => this
+        case NonEmpty(left, elem, right) => (this.include(elem) ∪ left) ∪ right
 
     @targetName("intersection")
     infix def ∩[B >: A: Order](that: Set[B]): Set[B] =
       if that.contains(element) then NonEmpty(left ∩ that, element, right ∩ that)
-      else left ∩ that ∪ right ∩ that
+      else (left ∩ that) ∪ (right ∩ that)
 
     // Optional from the Unit 5. If you haven't implement it in Unit 5 then skip it
     @targetName("difference")
